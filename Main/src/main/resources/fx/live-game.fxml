@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.LiveGameController"
+            style="-fx-background-color: white;">
+
+    <VBox spacing="30"
+          alignment="TOP_CENTER"
+          AnchorPane.topAnchor="30"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0">
+
+        <!-- Title -->
+        <Label text="Gin Rummy Live Scoring"
+               style="-fx-font-size: 42; -fx-font-weight: bold;" />
+
+        <!-- Subheading -->
+        <Label fx:id="turnLabel"
+               text="Player 1 goes first this round"
+               style="-fx-font-size: 18;" />
+
+        <!-- Players section (side by side) -->
+        <HBox spacing="250"
+              alignment="TOP_CENTER">
+
+            <!-- Player 1 column -->
+            <VBox spacing="15" alignment="CENTER">
+
+                <Label fx:id="p1name"
+                       style="-fx-font-size: 24; -fx-font-weight: bold;" />
+
+                <Label fx:id="p1score"
+                       text = "0"
+                       style="-fx-font-size: 64; -fx-font-weight: bold;" />
+
+                <TextField fx:id="p1textField"
+                           promptText="Enter score"
+                           maxWidth="120"
+                           style="-fx-font-size: 18; -fx-alignment: center;" />
+
+            </VBox>
+
+            <!-- Player 2 column -->
+            <VBox spacing="15" alignment="CENTER">
+
+                <Label fx:id="p2name"
+                       style="-fx-font-size: 24; -fx-font-weight: bold;" />
+
+                <Label fx:id="p2score"
+                       text="0"
+                       style="-fx-font-size: 64; -fx-font-weight: bold;" />
+
+                <TextField fx:id="p2textField"
+                           promptText="Enter score"
+                           maxWidth="120"
+                           style="-fx-font-size: 18; -fx-alignment: center;" />
+
+            </VBox>
+
+        </HBox>
+
+        <!-- Single submit button -->
+        <Button text="Submit Score"
+                onAction="#handleSubmitScore"
+                prefWidth="200"
+                prefHeight="50"
+                style="-fx-font-size: 20;" />
+
+        <!-- Error button -->
+        <Label fx:id="errorLabel"
+               visible="false"
+               style="-fx-text-fill: red; -fx-font-size: 16;" />
+
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="Controllers.StartScreenController"
+           style="-fx-background-color: white;">
+
+    <VBox alignment="CENTER"
+          spacing="25"
+          fillWidth="false">
+
+        <Label text="Gin Rummy Scoring System"
+               style="-fx-font-size: 48; -fx-font-weight: bold;"/>
+
+        <ComboBox fx:id="player1"
+                  promptText="Select Player 1"
+                  maxWidth="250"/>
+
+        <ComboBox fx:id="player2"
+                  promptText="Select Player 2"
+                  maxWidth="250"/>
+
+
+        <Button text="Start Game"
+                prefWidth="180"
+                prefHeight="50"
+                onAction="#handleStartGame"
+                style="-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 16;" />
+
+        <TextField fx:id="scoreToWin" promptText="Enter score needed to win" maxWidth="100"/>
+
+        <Label fx:id="errorLabel"
+               visible="false"
+               style="-fx-text-fill: red; -fx-font-size: 16;" />
+    </VBox>
+
+</StackPane>
+
+
