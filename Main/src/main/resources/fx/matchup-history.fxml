@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.HistoryController"
+            prefWidth="600"
+            prefHeight="400">
+
+    <top>
+        <Label text="Matchup History"
+               style="-fx-font-size: 24; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <TableView fx:id="historyTable" prefWidth="580" prefHeight="350">
+            <columns>
+                <TableColumn fx:id="name1Column" text="Player 1" prefWidth="140"/>
+                <TableColumn fx:id="wins1Column" text="Wins 1" prefWidth="100"/>
+                <TableColumn fx:id="name2Column" text="Player 2" prefWidth="140"/>
+                <TableColumn fx:id="wins2Column" text="Wins 2" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <Button text="Back"
+                onAction="#handleBack"
+                style="-fx-font-size: 16;"
+                BorderPane.alignment="CENTER"/>
+    </bottom>
+
+</BorderPane>
+

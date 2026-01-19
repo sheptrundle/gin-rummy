@@ -1,9 +1,20 @@
 package Controllers;
 
+import Backend.Player;
+import Database.DatabaseDriver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class LiveGameController {
     @FXML Label p1name;
@@ -18,13 +29,17 @@ public class LiveGameController {
     private int score1;
     private int score2;
     private int scoreToWin;
-    private String[] names;
+    private Player[] players;
     private int goesFirst;
     private boolean isLive;
+    private DatabaseDriver db;
 
     public void setUp(String p1, String p2, int scoreToWin) {
         // Set fields
-        names = new String[] {p1, p2};
+        players = new Player[] {
+                new Player(p1, javafx.scene.paint.Paint.valueOf("blue")),
+                new Player(p2, javafx.scene.paint.Paint.valueOf("orange"))
+        };
 
         // Set player names
         p1name.setText(p1);
@@ -38,11 +53,36 @@ public class LiveGameController {
         goesFirst = (int) (Math.random() * 2);
 
         // Update turn label
-        turnLabel.setText(names[goesFirst] + " goes first this round");
+        turnLabel.setText(players[goesFirst].getName() + " goes first this round");
+    }
+
+    public void setDB(DatabaseDriver db) {
+        this.db = db;
     }
 
     @FXML
-    public void handleSubmitScore(ActionEvent event) {
+    public void handleQuitGame(ActionEvent actionEvent)  {
+        try {
+            // Load the start screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fx/start-screen.fxml"));
+            Parent root = loader.load();
+
+            // Set up controller
+            StartScreenController controller = loader.getController();
+            controller.setDB(db);
+
+            // Switch scenes
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleSubmitScore(ActionEvent event) throws SQLException {
         if (!isLive) {
             showError("Game has already ended");
             return;
@@ -68,14 +108,14 @@ public class LiveGameController {
 
     }
 
-    public void endTurn() {
+    public void endTurn() throws SQLException {
         p1score.setText(String.valueOf(score1));
         p2score.setText(String.valueOf(score2));
 
         checkGameEnd();
 
         swapTurns();
-        turnLabel.setText(names[goesFirst] + " goes first this round");
+        turnLabel.setText(players[goesFirst].getName() + " goes first this round");
 
         p1textField.clear();
         p2textField.clear();
@@ -89,7 +129,7 @@ public class LiveGameController {
         }
     }
 
-    private void checkGameEnd() {
+    private void checkGameEnd() throws SQLException {
         if (score1 >= scoreToWin || score2 >= scoreToWin) {
             isLive = false;
             int winner;
@@ -100,7 +140,9 @@ public class LiveGameController {
                 winner = 1;
             }
 
-            showError(names[winner] + " wins");
+            showError(players[winner].getName() + " wins");
+            db.increment(players[0], players[1], players[winner]);
+            db.commit();
         }
     }
 

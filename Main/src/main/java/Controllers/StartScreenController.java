@@ -1,5 +1,6 @@
 package Controllers;
 
+import Database.DatabaseDriver;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,10 +20,12 @@ public class StartScreenController {
     @FXML private Label errorLabel;
     @FXML private TextField scoreToWin;
 
+    private DatabaseDriver db;
+
     @FXML
     private void initialize() {
-        player1.getItems().addAll("Shep", "Atticus");
-        player2.getItems().addAll("Shep", "Atticus");
+        player1.getItems().addAll("Shep", "Atticus", "Trask");
+        player2.getItems().addAll("Shep", "Atticus", "Trask");
 
         // Allow only numbers in score to win
         scoreToWin.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -30,6 +33,10 @@ public class StartScreenController {
                 scoreToWin.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
+    }
+
+    public void setDB(DatabaseDriver db) {
+        this.db = db;
     }
 
     @FXML
@@ -59,6 +66,7 @@ public class StartScreenController {
 
             // Switch scenes
             else {
+                controller.setDB(db);
                 controller.setUp(p1, p2, Integer.parseInt(scoreToWin.getText()));
                 System.out.println("setting scoreToWin at " + Integer.parseInt(scoreToWin.getText()));
 
@@ -71,6 +79,18 @@ public class StartScreenController {
         } catch (IOException e) {
             showError("ERROR: " + e.getMessage());
         }
+    }
+
+    public void handleMatchupHistory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fx/matchup-history.fxml"));
+        Parent root = loader.load();
+
+        HistoryController controller = loader.getController();
+        controller.setUp(db);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setMaximized(true);
     }
 
     private void showError(String message) {

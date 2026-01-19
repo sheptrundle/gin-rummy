@@ -33,11 +33,20 @@
                 onAction="#handleStartGame"
                 style="-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 16;" />
 
-        <TextField fx:id="scoreToWin" promptText="Enter score needed to win" maxWidth="100"/>
+        <TextField fx:id="scoreToWin" promptText="Enter score needed to win" maxWidth="200"/>
+
+        <Pane prefHeight="70"/>
+
+        <Button text="Matchup History"
+                prefWidth="100"
+                prefHeight="30"
+                onAction="#handleMatchupHistory"
+                style="-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;" />
 
         <Label fx:id="errorLabel"
                visible="false"
                style="-fx-text-fill: red; -fx-font-size: 16;" />
+
     </VBox>
 
 </StackPane>

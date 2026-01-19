@@ -73,7 +73,16 @@
         <!-- Error button -->
         <Label fx:id="errorLabel"
                visible="false"
-               style="-fx-text-fill: red; -fx-font-size: 16;" />
+               style="-fx-text-fill: red; -fx-font-size: 20;" />
+
+        <Pane prefHeight="230"/>
+
+        <!-- Exit button -->
+        <Button text="Quit Game"
+                onAction="#handleQuitGame"
+                prefWidth="150"
+                prefHeight="40"
+                style="-fx-text-fill: red; -fx-font-size: 18;" />
 
     </VBox>
 </AnchorPane>
