@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.HistoryController"
+            prefWidth="600"
+            prefHeight="400">
+
+    <top>
+        <Label text="Matchup History"
+               style="-fx-font-size: 24; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <!-- Table with history -->
+        <VBox alignment="CENTER" spacing="10">
+            <TableView fx:id="historyTable"
+                       prefWidth="320" prefHeight="500"
+                       maxWidth="320" maxHeight="500"
+                       style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white;">
+                <columns>
+                    <TableColumn fx:id="name1Column" text="Player 1" prefWidth="100"/>
+                    <TableColumn fx:id="wins1Column" text="Wins 1"/>
+                    <TableColumn fx:id="name2Column" text="Player 2" prefWidth="100"/>
+                    <TableColumn fx:id="wins2Column" text="Wins 2" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets bottom="70"/>
+            </padding>
+            <Button text="Back"
+                    prefHeight="50"
+                    prefWidth="150"
+                    onAction="#handleBack"
+                    style="-fx-font-size: 16; -fx-background-color: darkred; -fx-text-fill: white"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>
+
+
+

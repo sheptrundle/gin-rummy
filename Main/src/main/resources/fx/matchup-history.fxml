@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.HistoryController"
             prefWidth="600"
@@ -15,22 +16,36 @@
     </top>
 
     <center>
-        <TableView fx:id="historyTable" prefWidth="580" prefHeight="350">
-            <columns>
-                <TableColumn fx:id="name1Column" text="Player 1" prefWidth="140"/>
-                <TableColumn fx:id="wins1Column" text="Wins 1" prefWidth="100"/>
-                <TableColumn fx:id="name2Column" text="Player 2" prefWidth="140"/>
-                <TableColumn fx:id="wins2Column" text="Wins 2" prefWidth="100"/>
-            </columns>
-        </TableView>
+        <!-- Table with history -->
+        <VBox alignment="CENTER" spacing="10">
+            <TableView fx:id="historyTable"
+                       prefWidth="320" prefHeight="500"
+                       maxWidth="320" maxHeight="500"
+                       style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white;">
+                <columns>
+                    <TableColumn fx:id="name1Column" text="Player 1" prefWidth="100"/>
+                    <TableColumn fx:id="wins1Column" text="Wins 1"/>
+                    <TableColumn fx:id="name2Column" text="Player 2" prefWidth="100"/>
+                    <TableColumn fx:id="wins2Column" text="Wins 2" />
+                </columns>
+            </TableView>
+        </VBox>
     </center>
 
     <bottom>
-        <Button text="Back"
-                onAction="#handleBack"
-                style="-fx-font-size: 16;"
-                BorderPane.alignment="CENTER"/>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets bottom="70"/>
+            </padding>
+            <Button text="Back"
+                    prefHeight="50"
+                    prefWidth="150"
+                    onAction="#handleBack"
+                    style="-fx-font-size: 16; -fx-background-color: darkred; -fx-text-fill: white"/>
+        </VBox>
     </bottom>
 
 </BorderPane>
+
+
 

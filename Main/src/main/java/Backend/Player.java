@@ -24,12 +24,7 @@ public class Player {
     public void addPoints(int points) {score += points;}
 
     // Get player picture
-    public ImageView getImage() {
-        ImageView image = new javafx.scene.image.ImageView(
-                new Image("/images/" + name + ".png")
-        );
-        image.setFitWidth(200);
-        image.setFitHeight(200);
-        return image;
+    public Image getImage() {
+        return new Image("/images/" + name + ".jpeg");
     }
 }
