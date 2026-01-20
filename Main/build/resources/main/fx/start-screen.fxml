@@ -37,7 +37,7 @@
 
         <Pane prefHeight="70"/>
 
-        <Button text="Matchup History"
+        <Button text="History"
                 prefWidth="100"
                 prefHeight="30"
                 onAction="#handleMatchupHistory"

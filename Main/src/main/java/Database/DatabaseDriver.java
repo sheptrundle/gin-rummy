@@ -40,7 +40,7 @@ public class DatabaseDriver {
     public void createTables() throws SQLException {
         Statement statement = connection.createStatement();
         // Tables for history
-        String createTable = """
+        String createMatchupTable = """
                 CREATE TABLE IF NOT EXISTS History(
                     ID INTEGER PRIMARY KEY AUTOINCREMENT,
                     Name1 TEXT NOT NULL,
@@ -50,11 +50,21 @@ public class DatabaseDriver {
                     UNIQUE (Name1, Name2)
                 );
             """;
-        statement.executeUpdate(createTable);
+        statement.executeUpdate(createMatchupTable);
+
+        String createTotalWinsTable = """
+                CREATE TABLE IF NOT EXISTS Totals(
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Name TEXT UNIQUE NOT NULL,
+                    TotalWins Integer NOT NULL,
+                    TotalLosses Integer NOT NULL
+                );
+        """;
+        statement.executeUpdate(createTotalWinsTable);
     }
 
     public void increment(Player player1, Player player2, Player winningPlayer) throws SQLException {
-        // Normalize: always store matchup alphabetically
+        // Normalize to store matchup alphabetically
         String p1 = player1.getName();
         String p2 = player2.getName();
         String winnerString = winningPlayer.getName();
@@ -81,10 +91,11 @@ public class DatabaseDriver {
             throw new IllegalArgumentException("winningPlayer must be p1 or p2");
         }
 
-        String sqlUpdate = "UPDATE History SET " + columnToIncrement + " = " + columnToIncrement + " + 1 " +
+        // First update matchup database
+        String historyUpdate = "UPDATE History SET " + columnToIncrement + " = " + columnToIncrement + " + 1 " +
                 "WHERE Name1 = ? AND Name2 = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sqlUpdate)) {
+        try (PreparedStatement ps = connection.prepareStatement(historyUpdate)) {
             ps.setString(1, first);
             ps.setString(2, second);
             int rowsUpdated = ps.executeUpdate();
@@ -104,6 +115,41 @@ public class DatabaseDriver {
                 }
             }
         }
+
+        // Winner add 1 win
+        String updateWinner = "UPDATE Totals SET TotalWins = TotalWins + 1 WHERE Name = ?";
+        try (PreparedStatement psWinner = connection.prepareStatement(updateWinner)) {
+            psWinner.setString(1, winnerString);
+            int rowsUpdated = psWinner.executeUpdate();
+
+            // If no row exists for winner, insert it
+            if (rowsUpdated == 0) {
+                String insertWinner = "INSERT INTO Totals(Name, TotalWins, TotalLosses) VALUES(?, 1, 0)";
+                try (PreparedStatement insertPs = connection.prepareStatement(insertWinner)) {
+                    insertPs.setString(1, winnerString);
+                    insertPs.executeUpdate();
+                }
+            }
+        }
+
+        // Loser add 1 loss
+        String loserString = winnerString.equals(p1) ? p2 : p1;
+
+        String updateLoser = "UPDATE Totals SET TotalLosses = TotalLosses + 1 WHERE Name = ?";
+        try (PreparedStatement psLoser = connection.prepareStatement(updateLoser)) {
+            psLoser.setString(1, loserString);
+            int rowsUpdated = psLoser.executeUpdate();
+
+            // If no row exists for loser, insert it
+            if (rowsUpdated == 0) {
+                String insertLoser = "INSERT INTO Totals(Name, TotalWins, TotalLosses) VALUES(?, 0, 1)";
+                try (PreparedStatement insertPs = connection.prepareStatement(insertLoser)) {
+                    insertPs.setString(1, loserString);
+                    insertPs.executeUpdate();
+                }
+            }
+        }
+        commit();
     }
 
     public void clearHistory() throws SQLException {
