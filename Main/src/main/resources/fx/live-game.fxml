@@ -25,11 +25,10 @@
                style="-fx-font-size: 18;" />
 
         <!-- Players section (side by side) -->
-        <HBox spacing="250"
-              alignment="TOP_CENTER">
+        <HBox spacing="20" alignment="TOP_CENTER">
 
             <!-- Player 1 column -->
-            <VBox spacing="15" alignment="CENTER" prefWidth="400">
+            <VBox spacing="15" alignment="CENTER">
 
                 <Label fx:id="p1name"
                        style="-fx-font-size: 24; -fx-font-weight: bold;" />
@@ -41,6 +40,7 @@
                     <Region HBox.hgrow="ALWAYS"/>
 
                     <Label fx:id="p1score"
+                           minWidth="250"
                            text="0"
                            style="-fx-font-size: 128; -fx-font-weight: bold;" />
 
@@ -55,7 +55,7 @@
             </VBox>
 
             <!-- Player 2 column -->
-            <VBox spacing="15" alignment="CENTER" prefWidth="400">
+            <VBox spacing="15" alignment="CENTER">
 
                 <Label fx:id="p2name"
                        style="-fx-font-size: 24; -fx-font-weight: bold;" />
@@ -65,6 +65,8 @@
                     <Region HBox.hgrow="ALWAYS"/>
 
                     <Label fx:id="p2score"
+                           minWidth= "250"
+                           alignment="CENTER_RIGHT"
                            text="0"
                            style="-fx-font-size: 128; -fx-font-weight: bold;" />
 

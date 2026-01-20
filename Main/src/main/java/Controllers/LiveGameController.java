@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
@@ -47,23 +48,37 @@ public class LiveGameController {
 
     @FXML
     public void initialize() {
-        // Pressing Enter in P1 text field
+        // --- Restrict to numbers only ---
+        p1textField.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getText().matches("[0-9]*")) {
+                return change; // allow
+            }
+            return null; // reject
+        }));
+
+        p2textField.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getText().matches("[0-9]*")) {
+                return change; // allow
+            }
+            return null; // reject
+        }));
+
+        // --- Press Enter triggers submit ---
         p1textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
-                    handleSubmitScore(new ActionEvent());
+                    handleSubmitScore();
                 } catch (SQLException e) {
                     showError(e.getMessage());
                 }
             }
         });
 
-        // Pressing Enter in P2 text field
         p2textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
-                    handleSubmitScore(new ActionEvent());
-                } catch (Exception e) {
+                    handleSubmitScore();
+                } catch (SQLException e) {
                     showError(e.getMessage());
                 }
             }
@@ -122,12 +137,12 @@ public class LiveGameController {
             stage.setMaximized(true);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            showError(e.getMessage());
         }
     }
 
     @FXML
-    public void handleSubmitScore(ActionEvent event) throws SQLException {
+    public void handleSubmitScore() throws SQLException {
         if (!isLive) {
             showError("Game has already ended");
             return;
@@ -144,6 +159,9 @@ public class LiveGameController {
             showError("Cannot submit two scores at once");
             return;
         }
+
+        // Invalid entry
+        if (addP1 == -1 || addP2 == -1) {return;}
 
         // Add points
         else {
@@ -221,7 +239,7 @@ public class LiveGameController {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
             showError("Invalid number: " + text);
-            return 0;
+            return -1;
         }
     }
 
