@@ -1,1 +1,3 @@
+***Gin Rummy***
+
 Personal project used to keep track of scoring, turns, live games, matchup history, and total records in the popular card game: Gin Rummy. Used during live play (alongside a deck of cards) with my friends Atticus, Sam, and Henry in our apartment in Coogee, Australia, where Gin Rummy has become our most popular pastime.
