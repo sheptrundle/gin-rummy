@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -43,6 +44,31 @@ public class LiveGameController {
     private boolean isLive;
     private DatabaseDriver db;
     private ArrayList<LoggedRound> loggedRounds;
+
+    @FXML
+    public void initialize() {
+        // Pressing Enter in P1 text field
+        p1textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    handleSubmitScore(new ActionEvent());
+                } catch (SQLException e) {
+                    showError(e.getMessage());
+                }
+            }
+        });
+
+        // Pressing Enter in P2 text field
+        p2textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    handleSubmitScore(new ActionEvent());
+                } catch (Exception e) {
+                    showError(e.getMessage());
+                }
+            }
+        });
+    }
 
     public void setUp(String p1, String p2, int scoreToWin) {
         // Set fields
@@ -139,8 +165,6 @@ public class LiveGameController {
 
         // Swap who goes first
         swapTurns();
-
-        // todo: Show logged rounds
 
         // Clear previously submitted scores
         p1textField.clear();
