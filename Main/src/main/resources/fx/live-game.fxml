@@ -31,7 +31,7 @@
             <VBox spacing="15" alignment="CENTER">
 
                 <Label fx:id="p1name"
-                       style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                       style="-fx-font-size: 48; -fx-font-weight: bold;" />
 
                 <!-- Full width HBox for image + score -->
                 <HBox alignment="CENTER_LEFT" spacing="10" prefWidth="400">
@@ -58,7 +58,7 @@
             <VBox spacing="15" alignment="CENTER">
 
                 <Label fx:id="p2name"
-                       style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                       style="-fx-font-size: 48; -fx-font-weight: bold;" />
 
                 <!-- Full width HBox for score + image -->
                 <HBox alignment="CENTER_RIGHT" spacing="10" prefWidth="400">
@@ -87,8 +87,8 @@
         <!-- Single submit button -->
         <Button text="Submit Score"
                 onAction="#handleSubmitScore"
-                prefWidth="200"
-                prefHeight="50"
+                prefWidth="150"
+                prefHeight="20"
                 style="-fx-font-size: 20;" />
 
         <!-- Error label -->
